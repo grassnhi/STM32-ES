@@ -1,3 +1,4 @@
+## NOTE: Each exercise stored in 1 branch. Switch branch to see the expected project.
 # Lab 1: General Purpose Input Output 
 
 - Ex1: Control led3 ON in 2s and then OFF in 4s.
