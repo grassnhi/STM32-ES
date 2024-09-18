@@ -86,7 +86,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-
+  int counter = -1;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -97,6 +97,18 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+	  counter++;
+	  if(counter == 0){
+		  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1);
+	  }
+	  if(counter == 200){
+		  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
+	  }
+	  if(counter == 600){
+		  counter = -1;
+	  }
+
+	  HAL_Delay(10);
   }
   /* USER CODE END 3 */
 }
