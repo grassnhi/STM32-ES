@@ -4,7 +4,7 @@
 
 - Ex2: Ex1 with 1 delay statement (use counter and an extra variable to save the led status).
 
-- Ex3: Simulate the traffic light operation using led2, led_y0 and led_y1.
+- Ex3: Simulate the traffic light operation using led2, led_y0 and led_y1. (Red = 5s, Green = 3s, Yellow = 1s). 1 delay statement.
 
 # Lab 2: Timer Interrupt and LED Scanning
 

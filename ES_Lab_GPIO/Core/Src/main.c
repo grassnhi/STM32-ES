@@ -99,12 +99,19 @@ int main(void)
 
 	  counter++;
 	  if(counter == 0){
-		  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1);
+		  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1); // RED
+		  HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y0_Pin, 0); // GREEN
+		  HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y1_Pin, 0); // YELLOW
 	  }
-	  if(counter == 200){
-		  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
+	  if(counter == 500){
+		  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0); // RED
+		  HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y0_Pin, 1); // GREEN
 	  }
-	  if(counter == 600){
+	  if(counter == 800){
+		  HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y0_Pin, 0); // GREEN
+		  HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y1_Pin, 1); // YELLOW
+	  }
+	  if(counter == 900){
 		  counter = -1;
 	  }
 
