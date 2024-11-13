@@ -106,7 +106,7 @@ int main(void)
 	  while(!flag_timer2);
 	  flag_timer2 = 0;
 	  // main task, every 50ms
-	  clock();
+	  shiftLED();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -257,6 +257,15 @@ void clock(){
 	led7_SetDigit(LED[2], 2, 0);
 	led7_SetDigit(LED[3], 3, 0);
 };
+
+void shiftLED(){
+	//write number1 at led index 0 (not show dot)
+	led7_SetDigit(LED[idx%4], 3, 0);
+	led7_SetDigit(LED[(idx+1)%4], 2, 0);
+	led7_SetDigit(LED[(idx+2)%4], 1, 0);
+	led7_SetDigit(LED[(idx+3)%4], 0, 0);
+	idx = (idx+1)%4;
+}
 /* USER CODE END 4 */
 
 /**
