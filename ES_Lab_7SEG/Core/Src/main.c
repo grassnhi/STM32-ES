@@ -106,10 +106,7 @@ int main(void)
 	  while(!flag_timer2);
 	  flag_timer2 = 0;
 	  // main task, every 50ms
-	  test_LedDebug();
-	  test_LedY0();
-	  test_LedY1();
-	  test_7seg();
+	  test_TrafficLights();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -176,15 +173,15 @@ uint8_t count_led_Y0 = 0;
 uint8_t count_led_Y1 = 0;
 
 void test_LedDebug(){
-	count_led_debug = (count_led_debug + 1)%20;
+	count_led_debug = (count_led_debug + 1)%40;
 	if(count_led_debug == 0){
 		HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
 	}
 }
 
 void test_LedY0(){
-	count_led_Y0 = (count_led_Y0+ 1)%100;
-	if(count_led_Y0 > 40){
+	count_led_Y0 = (count_led_Y0+ 1)%120;
+	if(count_led_Y0 <= 40){
 		HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 1);
 	} else {
 		HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
@@ -192,11 +189,11 @@ void test_LedY0(){
 }
 
 void test_LedY1(){
-	count_led_Y1 = (count_led_Y1+ 1)%40;
-	if(count_led_Y1 > 10){
+	count_led_Y1 = (count_led_Y1+ 1)%120;
+	if(count_led_Y1 <= 20){
 		HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
 	} else {
-		HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y1_Pin, 1);
+		HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);
 	}
 }
 
@@ -206,6 +203,24 @@ void test_7seg(){
 	led7_SetDigit(5, 1, 0);
 	led7_SetDigit(4, 2, 0);
 	led7_SetDigit(7, 3, 0);
+}
+
+void test_TrafficLights(){
+    count_traffic = (count_traffic + 1) % 180;  // 9 seconds cycle (180 * 50ms)
+
+    if(count_traffic < 100){  // RED for 5 seconds (100 * 50ms)
+        HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1);
+        HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
+        HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
+    } else if(count_traffic < 160){  // GREEN for 3 seconds (60 * 50ms)
+        HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
+        HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 1);
+        HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
+    } else {  // YELLOW for 1 second (20 * 50ms)
+        HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
+        HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
+        HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);
+    }
 }
 /* USER CODE END 4 */
 
