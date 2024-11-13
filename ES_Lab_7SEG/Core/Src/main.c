@@ -106,7 +106,7 @@ int main(void)
 	  while(!flag_timer2);
 	  flag_timer2 = 0;
 	  // main task, every 50ms
-	  test_TrafficLights();
+	  clock();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -222,6 +222,41 @@ void test_TrafficLights(){
         HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);
     }
 }
+
+void clock(){
+    toggle = !toggle;
+	led7_SetColon(toggle);
+	if(time_count > 3){
+	  time_count = 0;
+	  second++;
+	}
+	if(second >= 59)
+	{
+	  LED[3]++;
+	  second = 0;
+	}
+	if(LED[3]>9){
+	  LED[3] = 0;
+	  LED[2]++;
+	}
+	if(LED[2]>9){
+	  LED[2] = 0;
+	  LED[1]++;
+	}
+	if(LED[1]>9){
+	  LED[1] = 0;
+	  LED[0]++;
+	}
+	if(LED[0] >= 2 && LED[1] >= 4){
+	  LED[0] = 0;
+	  LED[1] = 0;
+	}
+	second_count++;
+	led7_SetDigit(LED[0], 0, 0);
+	led7_SetDigit(LED[1], 1, 0);
+	led7_SetDigit(LED[2], 2, 0);
+	led7_SetDigit(LED[3], 3, 0);
+};
 /* USER CODE END 4 */
 
 /**
