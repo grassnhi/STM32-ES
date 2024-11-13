@@ -18,11 +18,17 @@
 
 - Ex3: Change LED_7SEG frequency to 1Hz, 25Hz, 100Hz.
 
-The formula for calculating the interrupt frequency is:
+- Ex4: Simulus the digital 7-segment LED.
+
+- Ex5: Display 4 different number in the LED_7SEG and shift them right every 1s.
+
+# Answer of Lab 2 - Exercise 3:
+
+### The formula for calculating the interrupt frequency is:
 
     interrupt_frequency = 84 MHz / ((prescaler + 1) * (counter_period + 1))
 
-Solving for the counter period:
+### Solving for the counter period:
 
     counter_period = (84 MHz / (interrupt_frequency * (prescaler + 1))) - 1
 
@@ -40,7 +46,3 @@ To adjust the scan frequency of the four seven-segment LEDs on the board to 1 Hz
 
 Therefore, setting the counter period to 24,999, 999, and 249 will achieve interrupt frequencies of 4 Hz, 100 Hz, and 400 Hz, respectively, corresponding to LED scan frequencies of 1 Hz, 25 Hz, and 100 Hz.
 
-
-- Ex4: Simulus the digital 7-segment LED.
-
-- Ex5: Display 4 different number in the LED_7SEG and shift them right every 1s.
