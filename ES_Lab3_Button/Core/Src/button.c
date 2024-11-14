@@ -7,6 +7,7 @@
 #include "button.h"
 
 uint16_t button_count[16];
+uint16_t button_flag[16];
 uint16_t spi_button = 0x0000;
 
 /**
@@ -42,6 +43,10 @@ void button_Scan(){
 		  }
 		  if(spi_button & mask) button_count[button_index] = 0;
 		  else button_count[button_index]++;
+		  if (button_count[button_index] >= 1)
+		  {
+			  button_flag[button_index] = 1;
+		  }
 		  mask = mask >> 1;
 	  }
 }

@@ -31,6 +31,7 @@
 #include "button.h"
 #include "lcd.h"
 #include "picture.h"
+#include "lab3_inc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,11 +102,14 @@ int main(void)
   MX_TIM2_Init();
   MX_SPI1_Init();
   MX_FSMC_Init();
+  setTimer2(10);
   /* USER CODE BEGIN 2 */
   system_init();
   lcd_Clear(WHITE);
   test_lcd();
   /* USER CODE END 2 */
+  uint8_t timer_counter = 100;
+  uint8_t timer_button = 20;
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -113,8 +117,19 @@ int main(void)
   {
 	  while(!flag_timer2);
 	  flag_timer2 = 0;
-	  button_Scan();
-	  test_button();
+    if(timer_counter == 0){
+		  fsm();
+		  timer_counter = 100;
+	  }
+	  if(timer_button == 0){
+		  button_Scan();
+		  test_button();
+		  timer_button = 20;
+	  }
+	  timer_counter --;
+	  timer_button--;
+	  // button_Scan();
+	  // test_button();
 
     /* USER CODE END WHILE */
 

@@ -12,6 +12,7 @@
 #include "gpio.h"
 
 extern uint16_t button_count[16];
+extern uint16_t button_flag[16];
 
 void button_init();
 void button_Scan();

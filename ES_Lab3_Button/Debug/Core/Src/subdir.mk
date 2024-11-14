@@ -8,6 +8,7 @@ C_SRCS += \
 ../Core/Src/button.c \
 ../Core/Src/fsmc.c \
 ../Core/Src/gpio.c \
+../Core/Src/lab_src.c \
 ../Core/Src/lcd.c \
 ../Core/Src/led_7seg.c \
 ../Core/Src/main.c \
@@ -25,6 +26,7 @@ OBJS += \
 ./Core/Src/button.o \
 ./Core/Src/fsmc.o \
 ./Core/Src/gpio.o \
+./Core/Src/lab_src.o \
 ./Core/Src/lcd.o \
 ./Core/Src/led_7seg.o \
 ./Core/Src/main.o \
@@ -42,6 +44,7 @@ C_DEPS += \
 ./Core/Src/button.d \
 ./Core/Src/fsmc.d \
 ./Core/Src/gpio.d \
+./Core/Src/lab_src.d \
 ./Core/Src/lcd.d \
 ./Core/Src/led_7seg.d \
 ./Core/Src/main.d \
