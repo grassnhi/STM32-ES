@@ -8,6 +8,7 @@
 
 uint8_t receive_buffer1 = 0;
 uint8_t msg[100];
+uint8_t rx_msg;
 
 void uart_init_rs232(){
 	HAL_UART_Receive_IT(&huart1, &receive_buffer1, 1);

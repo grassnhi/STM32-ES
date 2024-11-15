@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include "utils.h"
 
+uint8_t rx_msg;
+
 void uart_init_rs232();
 
 void uart_Rs232SendString(uint8_t* str);
