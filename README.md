@@ -100,3 +100,32 @@ Building a state machine and implementing a digital clock system with an LCD dis
     - After sending a request to the computer, if there is no response within 10 seconds, the system will automatically resend the request.
     - If there is still no response after 3 attempts, the system will display an error message on the LCD and return to normal operating mode.
     - If the data received from the computer is invalid, the system will resend the request to ensure the time data is accurately updated.
+
+# Lab 6: ADC-PWM
+
+Simulate an environmental monitoring system that measures and displays the following parameters on an LCD screen:
+
+- Power Consumption: Displayed in milliwatts (mW).
+- Light Intensity: Displayed as "Strong" or "Weak."
+- Temperature: Displayed in degrees Celsius (°C).
+- Humidity: Displayed as a percentage (%), simulated using a potentiometer.
+    - The potentiometer adjusts values from 0–100%, corresponding to the minimum and maximum ADC values read from the potentiometer.
+- System Time: Displayed using an LED clock.
+
+The measured data will be sent to a computer via UART-RS232 communication. When the humidity exceeds the allowed threshold (> 70%), the system enters an alarm state:
+- Buzzer: Sounds an alarm every 1 second.
+- Alerts: Notifications are continuously sent to the computer every 1 second.
+
+# Lab 7: LCD Touch
+
+Develop a classic snake game displayed on an LCD screen where all user interactions are performed via the touchscreen interface:
+- Touch the "Start" button on the screen to begin the game.
+- Use the directional buttons displayed on the screen to navigate the snake: Up, Down, Left, Right.
+
+# Lab 8: ESP8266 - WIFI
+
+Develop a system that collects temperature data from a sensor on the experimental kit, sends it to the Adafruit server every 30 seconds, and displays the data on an Adafruit dashboard as a graph.
+
+Transfer data between STM32 and ESP in the following format:
+
+    !TEMP:<Temperature Value>#
