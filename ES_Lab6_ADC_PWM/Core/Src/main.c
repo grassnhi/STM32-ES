@@ -24,9 +24,10 @@
 #include "i2c.h"
 #include "spi.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 #include "fsmc.h"
-
+#include "uart.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "software_timer.h"
@@ -70,6 +71,7 @@ void test_Adc();
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#define HUMIDITY_THRESHOLD 70
 
 /* USER CODE END 0 */
 
@@ -108,6 +110,7 @@ int main(void)
   MX_TIM13_Init();
   MX_DMA_Init();
   MX_ADC1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   system_init();
   /* USER CODE END 2 */
@@ -119,10 +122,10 @@ int main(void)
   {
 	  while(!flag_timer2);
 	  flag_timer2 = 0;
-	  button_Scan();
-	  test_LedDebug();
-	  test_Adc();
-	  test_Buzzer();
+//	  button_Scan();
+//	  test_LedDebug();
+//	  test_Adc();
+//	  test_Buzzer();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -236,6 +239,46 @@ void test_Adc(){
 	}
 }
 
+void display_environment_data() {
+    count_adc = (count_adc + 1) % 20;
+    if (count_adc == 0) {
+        sensor_Read();
+
+        uint16_t voltage = sensor_GetVoltage();
+        uint16_t current = sensor_GetCurrent();
+        uint16_t power = voltage * current;
+        uint16_t light = sensor_GetLight();
+        float temperature = sensor_GetTemperature();
+        uint16_t humidity = (sensor_GetPotentiometer() * 100) / 4095;
+
+        lcd_ShowStr(10, 20, "Voltage:", WHITE, BLACK, 16, 0);
+        lcd_ShowFloatNum(100, 20, voltage, 2, WHITE, BLACK, 16);
+
+        lcd_ShowStr(10, 40, "Current:", WHITE, BLACK, 16, 0);
+        lcd_ShowFloatNum(100, 40, current, 2, WHITE, BLACK, 16);
+
+        lcd_ShowStr(10, 60, "Power:", WHITE, BLACK, 16, 0);
+        lcd_ShowFloatNum(100, 60, power, 2, WHITE, BLACK, 16);
+
+        lcd_ShowStr(10, 80, "Light:", WHITE, BLACK, 16, 0);
+        lcd_ShowStr(100, 80, (light > 2048) ? "Strong" : "Weak", WHITE, BLACK, 16, 0);
+
+        lcd_ShowStr(10, 100, "Temp:", WHITE, BLACK, 16, 0);
+        lcd_ShowFloatNum(100, 100, temperature, 2, WHITE, BLACK, 16);
+
+        lcd_ShowStr(10, 120, "Humidity:", WHITE, BLACK, 16, 0);
+        lcd_ShowIntNum(100, 120, humidity, 3, WHITE, BLACK, 16);
+
+        if (humidity > HUMIDITY_THRESHOLD) {
+			buzzer_SetVolume(50);
+			uart_Rs232SendString("Alert: Humidity exceeded limit!\n");
+		} else {
+			buzzer_SetVolume(0);
+		}
+    }
+}
+
+
 void test_Buzzer(){
 	if(isButtonUp()){
 		buzzer_SetVolume(50);
@@ -248,7 +291,6 @@ void test_Buzzer(){
 	if(isButtonRight()){
 		buzzer_SetVolume(25);
 	}
-
 }
 /* USER CODE END 4 */
 
