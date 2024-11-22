@@ -9,7 +9,7 @@
 
 uint8_t isButtonStart(){
 	if(!touch_IsTouched()) return 0;
-	return touch_GetX() > 50 && touch_GetX() < 190 && touch_GetY() > 200 && touch_GetY() < 300;
+	return touch_GetX() > 50 && touch_GetX() < 190 && touch_GetY() > 250 && touch_GetY() < 350;
 }
 uint8_t isButtonUp(){
 	if(!touch_IsTouched()) return 0;
@@ -32,3 +32,7 @@ uint8_t isButtonRestart(){
 	return touch_GetX() > 50 && touch_GetX() < 190 && touch_GetY() > 250 && touch_GetY() < 350;
 }
 
+uint8_t isExit(){
+	if(!touch_IsTouched()) return 0;
+	return touch_GetX() > 170 && touch_GetX() < 240 && touch_GetY() > 200 && touch_GetY() < 255;
+}

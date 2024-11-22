@@ -229,15 +229,6 @@ void wait_check(void){
 	}
 }
 
-//void check_food(void){
-//	if(draw_grid[pos_head[0]][pos_head[1]]==1){
-//		score++;
-//		size_of_snake++;
-//		snake_pos[0][size_of_snake-1]=pos_head[0];
-//		snake_pos[1][size_of_snake-1]=pos_head[1];
-//		spawn_food();
-//	}
-//}
 
 void check_food(void){
     if(draw_grid[pos_head[0]][pos_head[1]]==1){

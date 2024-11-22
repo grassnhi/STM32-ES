@@ -13,4 +13,4 @@ snake.c:140:6:spawn_wall	24	static
 snake.c:185:5:rand_no	24	static
 snake.c:190:6:check_collision	4	static
 snake.c:209:6:wait_check	4	static
-snake.c:242:6:check_food	16	static
+snake.c:233:6:check_food	16	static

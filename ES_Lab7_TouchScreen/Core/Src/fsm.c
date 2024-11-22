@@ -11,7 +11,7 @@
 int status = INIT;
 int ID = 0;
 int mode = NORMAL;
-int speed = 1000;
+int speed = 500;
 int check_sent;
 int count = 0;
 char sec = '/';
@@ -51,40 +51,40 @@ void fsm_mode(){
 	}
 }
 
-void fsm_buzzer(){// gui canh bao do am > 70% loa bao hieu moi 1 giay, tan so 0.5Hz
-	switch (buzzer_flag) {
-		case BUZZER_OFF:
-			if(flag_timer7 == 1){
-				uart_EspSendString("Humidity is higher than 70%\n/");
-				setTimer7(1000);
-				buzzer_flag = BUZZER_ON;
-			}
-			buzzer_SetVolume(0);
-			break;
-		case BUZZER_ON:
-			if(flag_timer7 == 1){
-				setTimer7(1000);
-				buzzer_flag = BUZZER_OFF;
-			}
-			buzzer_SetVolume(50);
-			break;
-		default:
-			break;
-	}
-}
-
-void fsm_send_buzzer(){
-	switch (buzzer_check) {
-		case 0:
-			buzzer_SetVolume(0);
-			break;
-		case 1:
-			fsm_buzzer();
-			break;
-		default:
-			break;
-	}
-}
+//void fsm_buzzer(){// gui canh bao do am > 70% loa bao hieu moi 1 giay, tan so 0.5Hz
+//	switch (buzzer_flag) {
+//		case BUZZER_OFF:
+//			if(flag_timer7 == 1){
+//				uart_EspSendString("Humidity is higher than 70%\n/");
+//				setTimer7(1000);
+//				buzzer_flag = BUZZER_ON;
+//			}
+//			buzzer_SetVolume(0);
+//			break;
+//		case BUZZER_ON:
+//			if(flag_timer7 == 1){
+//				setTimer7(1000);
+//				buzzer_flag = BUZZER_OFF;
+//			}
+//			buzzer_SetVolume(50);
+//			break;
+//		default:
+//			break;
+//	}
+//}
+//
+//void fsm_send_buzzer(){
+//	switch (buzzer_check) {
+//		case 0:
+//			buzzer_SetVolume(0);
+//			break;
+//		case 1:
+//			fsm_buzzer();
+//			break;
+//		default:
+//			break;
+//	}
+//}
 
 void enter_ID(){//nhap id nguoi choi
 	if(button_count[0] == 1)
@@ -114,8 +114,8 @@ void enter_ID(){//nhap id nguoi choi
 void change_mode(){// doi che do choi
 	if(button_count[12] == 1){
 		lcd_Clear(BLACK);
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 		status = INIT;
 		return;
 	}
@@ -129,29 +129,29 @@ void change_mode(){// doi che do choi
 		mode = NORMAL;
 		lcd_Clear(BLACK);
 		status = INIT;
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 	}
 	if(button_count[1] == 1){
 		mode = WALL;
 		lcd_Clear(BLACK);
 		status = INIT;
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 	}
 	if(button_count[2] == 1){
 		mode = WALLS;
 		lcd_Clear(BLACK);
 		status = INIT;
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 	}
 	if(button_count[4] == 1){
 		mode = TIMER;
 		lcd_Clear(BLACK);
 		status = INIT;
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 	}
 }
 
@@ -159,8 +159,8 @@ void change_speed(){// doi toc do ran
 	if(button_count[12] == 1){
 		lcd_Clear(BLACK);
 		status = INIT;
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 		return;
 	}
 	lcd_ShowStr(0, 10, "1. EASY", WHITE, BLACK, 16, 0);
@@ -172,22 +172,22 @@ void change_speed(){// doi toc do ran
 		speed = 1000;
 		lcd_Clear(BLACK);
 		status = INIT;
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 	}
 	if(button_count[1] == 1){
 		speed = 500;
 		lcd_Clear(BLACK);
 		status = INIT;
-		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_Fill(50, 250, 190, 300, GREEN);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 	}
 	if(button_count[2] == 1){
 		speed = 100;
 		lcd_Clear(BLACK);
 		status = INIT;
 		lcd_Fill(50, 200, 190, 300, GREEN);
-		lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+		lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 	}
 }
 
@@ -241,8 +241,8 @@ void fsm_machine(){
 //		displayLeaderBoard(leaderboard);
 		if(button_count[12] == 1){
 			lcd_Clear(BLACK);
-			lcd_Fill(50, 200, 190, 300, GREEN);
-			lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+			lcd_Fill(50, 250, 190, 300, GREEN);
+			lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 			status = INIT;
 		}
 		break;
@@ -275,7 +275,7 @@ void fsm_machine(){
 			status = PLAY;
 			char res[100];
 			sprintf(res, "%d is playing %c", ID, sec);//gui len Wifi
-			uart_EspSendString(res);
+//			uart_EspSendString(res);
 			count = 0;
 			lcd_Clear(BLACK);
 			re_init();
@@ -351,14 +351,15 @@ void fsm_machine(){
 			//check_collision();
 			screen_score();
 			update_grid();
+			screen_exit();
 		}
-		if(lose == 1){
+		if(lose == 1 || isExit()){
 			status = GAME_OVER;
 			addPlayer(&leaderboard, ID, score, mode);
 			send_flag = 1;
 			char res[100];
 			sprintf(res, "%d was game over\nScore : %d\nTime : %d:%d %c", ID, score, count/60, count%60, sec);//STM32 -> wifi
-			uart_EspSendString(res);
+//			uart_EspSendString(res);
 			send_flag =0;
 			lcd_Clear(BLACK);
 			lcd_Fill(50, 250, 190, 300, GREEN);
@@ -391,7 +392,7 @@ void fsm_machine(){
 //			re_init();
 			char res[100];
 			sprintf(res, "%d is playing %c", ID, sec);//STM32->Wifi
-			uart_EspSendString(res);
+//			uart_EspSendString(res);
 			count = 0;
 			status = PLAY;
 			lcd_Clear(BLACK);

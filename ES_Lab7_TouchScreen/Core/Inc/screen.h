@@ -17,6 +17,7 @@
 void screen_init();
 void screen_play();
 void screen_score();
+void screen_exit();
 void screen_game_over();
 
 #endif /* INC_SCREEN_H_ */

@@ -18,5 +18,6 @@ uint8_t isButtonDown();
 uint8_t isButtonLeft();
 uint8_t isButtonRight();
 uint8_t isButtonRestart();
+uint8_t isExit();
 
 #endif /* INC_TOUCH_SCREEN_H_ */

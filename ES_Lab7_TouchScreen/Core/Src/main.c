@@ -147,26 +147,26 @@ int main(void)
 	  flag_timer2 = 0;
 	  touch_Scan();
 	  button_Scan();
-	  if(flag_timer5 == 1){
-		  sendSensor();
-		  setTimer5(5000);
-	  }
-	  if(isHumidity()){
-		  buzzer_check = 1;
-	  }else{
-		  buzzer_check = 0;
-	  }
-	  if (isLight()){
-		HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, SET);
-	  }else{
-		  HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, RESET);
-	  }
+//	  if(flag_timer5 == 1){
+//		  sendSensor();
+//		  setTimer5(5000);
+//	  }
+//	  if(isHumidity()){
+//		  buzzer_check = 1;
+//	  }else{
+//		  buzzer_check = 0;
+//	  }
+//	  if (isLight()){
+//		HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, SET);
+//	  }else{
+//		  HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, RESET);
+//	  }
 //	  if(status == INIT || status == GAME_OVER)
 //		  test_Adc();
 	  //touchProcess();
 	  fsm_machine();
-	  test_LedDebug();
-	  fsm_send_buzzer();
+//	  test_LedDebug();
+//	  fsm_send_buzzer();
 	  //test_button();
 
     /* USER CODE END WHILE */
@@ -231,8 +231,8 @@ void system_init(){
 	  uart_init_esp();
 
 	  lcd_Clear(BLACK);
-	  lcd_Fill(50, 200, 190, 300, GREEN);
-	  lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+	  lcd_Fill(50, 250, 190, 300, GREEN);
+	  lcd_ShowStr(90,260,"START",BLACK,BLACK,24,1);
 }
 
 uint8_t count_adc = 0;
