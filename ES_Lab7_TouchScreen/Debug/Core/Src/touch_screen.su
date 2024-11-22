@@ -1,0 +1,6 @@
+touch_screen.c:10:9:isButtonStart	8	static
+touch_screen.c:14:9:isButtonUp	8	static
+touch_screen.c:18:9:isButtonDown	8	static
+touch_screen.c:22:9:isButtonLeft	8	static
+touch_screen.c:26:9:isButtonRight	8	static
+touch_screen.c:30:9:isButtonRestart	8	static

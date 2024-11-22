@@ -12,11 +12,11 @@ uint16_t spi_buffer = 0xffff;
 
 int led7_index = 0;
 
-void led7_init(){
+void led7_init(){//khoi tao
 	  HAL_GPIO_WritePin(LD_LATCH_GPIO_Port, LD_LATCH_Pin, 1);
 }
 
-void led7_Scan(){
+void led7_Scan(){//quet led
 	spi_buffer &= 0x00ff;
 	spi_buffer |= led7seg[led7_index] << 8;
 	switch(led7_index){
@@ -45,13 +45,13 @@ void led7_Scan(){
 	HAL_GPIO_WritePin(LD_LATCH_GPIO_Port, LD_LATCH_Pin, 1);
 }
 
-void led7_SetDigit(int num, int position, uint8_t show_dot){
+void led7_SetDigit(int num, int position, uint8_t show_dot){//set so cho led
 	if(num >= 0 && num <= 9){
 		led7seg[position] = arrayOfNum[num] - show_dot;
 	}
 }
 
-void led7_SetColon(uint8_t status){
+void led7_SetColon(uint8_t status){// :
 	if(status == 1) spi_buffer &= ~(1 << 3);
 	else spi_buffer |= (1 << 3);
 }

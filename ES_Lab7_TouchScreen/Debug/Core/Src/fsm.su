@@ -1,0 +1,8 @@
+fsm.c:30:6:fsm_mode	8	static
+fsm.c:54:6:fsm_buzzer	8	static
+fsm.c:76:6:fsm_send_buzzer	8	static
+fsm.c:89:6:enter_ID	4	static
+fsm.c:114:6:change_mode	24	static
+fsm.c:158:6:change_speed	24	static
+fsm.c:194:6:displayLeaderBoard	40	static
+fsm.c:238:6:fsm_machine	144	static

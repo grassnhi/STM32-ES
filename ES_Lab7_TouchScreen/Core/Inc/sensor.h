@@ -23,4 +23,9 @@ float sensor_GetVoltage();
 float sensor_GetCurrent();
 
 float sensor_GetTemperature();
+
+float getWattage();
+uint16_t isLight();
+uint16_t isHumidity();
+
 #endif /* INC_SENSOR_H_ */

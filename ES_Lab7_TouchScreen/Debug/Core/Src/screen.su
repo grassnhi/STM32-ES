@@ -1,0 +1,4 @@
+screen.c:10:6:screen_init	24	static
+screen.c:36:6:screen_play	16	static
+screen.c:44:6:screen_score	24	static
+screen.c:49:6:screen_game_over	24	static

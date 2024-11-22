@@ -24,6 +24,7 @@
 #include "i2c.h"
 #include "spi.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 #include "fsmc.h"
 
@@ -38,6 +39,10 @@
 #include "sensor.h"
 #include "buzzer.h"
 #include "touch.h"
+#include "fsm.h"
+#include "snake.h"
+#include "screen.h"
+#include "touch_screen.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,7 +75,10 @@ void SystemClock_Config(void);
 void system_init();
 void test_LedDebug();
 void touchProcess();
+void test_button();
 uint8_t isButtonClear();
+void test_Adc();
+void sendSensor();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -114,29 +122,52 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM1_Init();
+  MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   system_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
- touch_Adjust();
- lcd_Clear(BLACK);
+ //touch_Adjust();
+ setTimer3(100);
+ setTimer5(10);
+ setTimer7(10);
  while (1)
   {
 	  //scan touch screen
-	  touch_Scan();
 	  //check if touch screen is touched
-	  if(touch_IsTouched() && draw_Status == DRAW){
+	  /*if(touch_IsTouched() && draw_Status == DRAW){
             //draw a point at the touch position
 		  lcd_DrawPoint(touch_GetX(), touch_GetY(), RED);
-	  }
+	  }*/
 	  // 50ms task
-	  if(flag_timer2 == 1){
-		  flag_timer2 = 0;
-		  touchProcess();
-		  test_LedDebug();
+	  while(!flag_timer2);
+	  flag_timer2 = 0;
+	  touch_Scan();
+	  button_Scan();
+	  if(flag_timer5 == 1){
+		  sendSensor();
+		  setTimer5(5000);
 	  }
+	  if(isHumidity()){
+		  buzzer_check = 1;
+	  }else{
+		  buzzer_check = 0;
+	  }
+	  if (isLight()){
+		HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, SET);
+	  }else{
+		  HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, RESET);
+	  }
+//	  if(status == INIT || status == GAME_OVER)
+//		  test_Adc();
+	  //touchProcess();
+	  fsm_machine();
+	  test_LedDebug();
+	  fsm_send_buzzer();
+	  //test_button();
 
     /* USER CODE END WHILE */
 
@@ -193,9 +224,40 @@ void SystemClock_Config(void)
 void system_init(){
 	  timer_init();
 	  button_init();
+	  buzzer_init();
 	  lcd_init();
 	  touch_init();
 	  setTimer2(50);
+	  uart_init_esp();
+
+	  lcd_Clear(BLACK);
+	  lcd_Fill(50, 200, 190, 300, GREEN);
+	  lcd_ShowStr(90,235,"START",BLACK,BLACK,24,1);
+}
+
+uint8_t count_adc = 0;
+
+void test_Adc(){
+	count_adc = (count_adc + 1)%20;
+	if(count_adc == 0){
+		sensor_Read();
+		lcd_ShowStr(10, 0, "Wattage:", RED, BLACK, 16, 0);
+		lcd_ShowFloatNum(130, 0,getWattage(), 4, RED, BLACK, 16);
+		if(!isLight()){
+			lcd_ShowStr(10, 20, "Light:", RED, BLACK, 16, 0);
+			lcd_ShowStr(130, 20,"Strong", RED, BLACK, 16, 0);
+		}else{
+			lcd_ShowStr(10, 20, "Light:", RED, BLACK, 16, 0);
+			lcd_ShowStr(130, 20,"Weak  ", RED, BLACK, 16, 0);
+		}
+		//lcd_ShowStr(10, 140, "Light:", RED, BLACK, 16, 0);
+		//lcd_ShowIntNum(130, 140, sensor_GetLight(), 4, RED, BLACK, 16);
+		lcd_ShowStr(10, 40, "Potentiometer:", RED, BLACK, 16, 0);
+		lcd_ShowFloatNum(130, 40, ((float)sensor_GetPotentiometer()/4095)*100, 4, RED, BLACK, 16);
+		//lcd_ShowIntNum(130, 40, sensor_GetPotentiometer(), 4, RED, BLACK, 16);
+		lcd_ShowStr(10, 60, "Temperature:", RED, BLACK, 16, 0);
+		lcd_ShowFloatNum(130, 60,sensor_GetTemperature(), 4, RED, BLACK, 16);
+	}
 }
 
 uint8_t count_led_debug = 0;
@@ -235,6 +297,38 @@ void touchProcess(){
 			break;
 		default:
 			break;
+	}
+}
+
+void test_button(){
+	for(int i = 0; i < 16; i++){
+		if(button_count[i] == 1){
+			led7_SetDigit(i/10, 2, 0);
+			led7_SetDigit(i%10, 3, 0);
+		}
+	}
+}
+
+void sendSensor(){
+	if(send_flag == 0){
+		char res[100];
+		char light[10];
+		if(!isLight()){
+			sprintf(light, "Strong");
+		}else{
+			sprintf(light, "Weak");
+		}
+		//int light = sensor_GetLight();
+		int po1 = sensor_GetPotentiometer();
+		int temp1 = sensor_GetTemperature();
+		if(status != PLAY){
+			sprintf(res, "Light : %s\nPotentiometer : %d \nTemperature : %d\nNo one is playing\n%c",light, po1, temp1, sec);// khong co ai choi
+			uart_EspSendString(res);
+		}
+		if(status == PLAY){
+			sprintf(res, "Light : %s\nPotentiometer : %d \nTemperature : %d\n%d is playing\nTime : %d sec\nScore : %d\n%c",light, po1, temp1, ID, count, score, sec);//dang co nguoi choi
+			uart_EspSendString(res);
+		}
 	}
 }
 /* USER CODE END 4 */
